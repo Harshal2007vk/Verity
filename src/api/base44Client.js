@@ -1,7 +1,9 @@
 // Custom base44Client wrapper pointing to local Express API
 // All base44.entities.* and base44.auth.* calls are forwarded to /api/
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_BASE44_APP_BASE_URL 
+  ? `${import.meta.env.VITE_BASE44_APP_BASE_URL}/api` 
+  : '/api';
 
 export const base44 = {
   entities: {
@@ -44,6 +46,9 @@ export const base44 = {
         const list = await res.json();
         if (!query) return list;
         return list.filter(c => Object.entries(query).every(([k, v]) => c[k] === v));
+      },
+      bulkCreate: async (dataArray) => {
+        return Promise.all(dataArray.map(data => base44.entities.Candidate.create(data)));
       }
     },
     Job: {
@@ -71,6 +76,9 @@ export const base44 = {
         const list = await res.json();
         if (!query) return list;
         return list.filter(j => Object.entries(query).every(([k, v]) => j[k] === v));
+      },
+      bulkCreate: async (dataArray) => {
+        return Promise.all(dataArray.map(data => base44.entities.Job.create(data)));
       }
     },
     RankingResult: {
