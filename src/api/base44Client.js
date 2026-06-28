@@ -1,8 +1,9 @@
 // Custom base44Client wrapper pointing to local Express API
 // All base44.entities.* and base44.auth.* calls are forwarded to /api/
 
-const baseUrl = import.meta.env.VITE_BASE44_APP_BASE_URL || import.meta.env.VITE_API_URL || '';
-const API_BASE = baseUrl ? `${baseUrl.replace(/\/$/, '')}/api` : '/api';
+const API_BASE = import.meta.env.DEV 
+  ? '/api' 
+  : 'https://verity-vmbg.onrender.com/api';
 
 export const base44 = {
   entities: {
