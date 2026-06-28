@@ -36,7 +36,7 @@ The system consists of a Vite-powered React frontend and a Node.js/Express backe
 ## Local Setup Instructions
 1. **Clone the repository**:
    ```bash
-   git clone <your-private-repo-url>
+   git clone https://github.com/Harshal2007vk/Verity.git
    cd AI-Recruiter-App
    ```
 2. **Install dependencies**:
