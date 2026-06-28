@@ -63,7 +63,7 @@ Evidence Links: ${JSON.stringify(candidate.evidence_links || [])}
 
   try {
     const response = await getGroq().chat.completions.create({
-      model: 'llama3-8b-8192',
+      model: 'openai/gpt-oss-20b',
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' }
     });

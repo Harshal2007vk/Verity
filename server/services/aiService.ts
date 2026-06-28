@@ -33,7 +33,7 @@ export async function extractResumeData(text: string) {
 
   try {
     const response = await getGroq().chat.completions.create({
-      model: 'llama3-8b-8192',
+      model: 'openai/gpt-oss-20b',
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' }
     });
@@ -52,7 +52,7 @@ export async function chatWithContext(prompt: string, context: any) {
 
   try {
     const response = await getGroq().chat.completions.create({
-      model: 'llama3-8b-8192',
+      model: 'openai/gpt-oss-20b',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: prompt }
