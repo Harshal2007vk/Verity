@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run server:dev\" \"npm run dev\"",
+    "start": "tsx server/server.ts",
+    "start:local": "concurrently \"npm run server:dev\" \"npm run dev\"",
     "dev": "vite",
     "server:dev": "tsx watch server/server.ts",
     "build": "vite build",
