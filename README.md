@@ -3,6 +3,10 @@
 ## Project Overview
 The AI Recruiter App is a modern, intelligent recruitment platform designed to streamline the hiring process. It leverages advanced AI models to parse resumes, match candidates to job descriptions, and rank them based on their suitability, saving recruiters hours of manual screening.
 
+## Live Demo
+- **Frontend App**: [https://verity-pearl.vercel.app/](https://verity-pearl.vercel.app/)
+- **Backend API**: [https://verity-vmbg.onrender.com](https://verity-vmbg.onrender.com)
+
 ## System Architecture
 The system consists of a Vite-powered React frontend and a Node.js/Express backend, integrated with a PostgreSQL database (via Supabase). The AI processing pipeline uses Google's Gemini and Groq APIs for natural language understanding and data extraction.
 
