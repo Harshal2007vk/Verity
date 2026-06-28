@@ -1,0 +1,72 @@
+{
+  "name": "RankingResult",
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "Reference to Job"
+    },
+    "candidate_id": {
+      "type": "string",
+      "description": "Reference to Candidate"
+    },
+    "overall_score": {
+      "type": "number",
+      "description": "Overall ranking score 0-100"
+    },
+    "sub_scores": {
+      "type": "object",
+      "properties": {
+        "semantic_fit": {
+          "type": "number"
+        },
+        "skill_proof": {
+          "type": "number"
+        },
+        "experience_match": {
+          "type": "number"
+        },
+        "project_quality": {
+          "type": "number"
+        },
+        "career_growth": {
+          "type": "number"
+        },
+        "behavioral_signal": {
+          "type": "number"
+        }
+      },
+      "description": "Breakdown scores"
+    },
+    "trust_score": {
+      "type": "number",
+      "description": "Trust score 0-100"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Risk assessment"
+    },
+    "explanation": {
+      "type": "string",
+      "description": "AI explanation of the ranking"
+    },
+    "rank_position": {
+      "type": "number",
+      "description": "Position in the ranking"
+    },
+    "top_transferable_skill": {
+      "type": "string",
+      "description": "The single most relevant transferable skill identified for this candidate relative to the job"
+    }
+  },
+  "required": [
+    "job_id",
+    "candidate_id",
+    "overall_score"
+  ]
+}

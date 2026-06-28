@@ -1,0 +1,76 @@
+{
+  "name": "Job",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Job title"
+    },
+    "raw_description": {
+      "type": "string",
+      "description": "Full raw job description text"
+    },
+    "team_context": {
+      "type": "string",
+      "description": "Optional context about the team"
+    },
+    "job_intelligence": {
+      "type": "object",
+      "description": "AI-extracted structured intelligence from the JD",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "seniority": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "industry": {
+          "type": "string"
+        },
+        "must_have_skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nice_to_have_skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hidden_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "responsibilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "context_notes": {
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "closed"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "title",
+    "raw_description"
+  ]
+}

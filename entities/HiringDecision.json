@@ -1,0 +1,59 @@
+{
+  "name": "HiringDecision",
+  "type": "object",
+  "properties": {
+    "candidate_id": {
+      "type": "string",
+      "description": "Reference to Candidate"
+    },
+    "job_id": {
+      "type": "string",
+      "description": "Reference to Job"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "Hiring confidence score 0-100"
+    },
+    "strengths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Key strengths identified by AI"
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Key risks identified by AI"
+    },
+    "interview_focus": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Areas to focus on during interview"
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": [
+        "Strong Hire",
+        "Consider",
+        "Needs Verification",
+        "Reject"
+      ],
+      "description": "Hiring recommendation"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "AI rationale for the recommendation"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "job_id",
+    "confidence_score",
+    "recommendation"
+  ]
+}
