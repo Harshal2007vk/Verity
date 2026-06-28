@@ -1,16 +1,15 @@
 // Custom base44Client wrapper pointing to local Express API
 // All base44.entities.* and base44.auth.* calls are forwarded to /api/
 
-const API_BASE = import.meta.env.VITE_BASE44_APP_BASE_URL 
-  ? `${import.meta.env.VITE_BASE44_APP_BASE_URL}/api` 
-  : '/api';
+const baseUrl = import.meta.env.VITE_BASE44_APP_BASE_URL || import.meta.env.VITE_API_URL || '';
+const API_BASE = baseUrl ? `${baseUrl.replace(/\/$/, '')}/api` : '/api';
 
 export const base44 = {
   entities: {
     Candidate: {
       list: async (sort = '') => {
         const res = await fetch(`${API_BASE}/candidates`);
-        if (!res.ok) throw new Error('Failed to fetch candidates');
+        if (!res.ok) throw new Error(`Failed to fetch candidates from ${API_BASE}/candidates (Status: ${res.status})`);
         return res.json();
       },
       create: async (data) => {
@@ -54,7 +53,7 @@ export const base44 = {
     Job: {
       list: async (sort = '') => {
         const res = await fetch(`${API_BASE}/jobs`);
-        if (!res.ok) throw new Error('Failed to fetch jobs');
+        if (!res.ok) throw new Error(`Failed to fetch jobs from ${API_BASE}/jobs (Status: ${res.status})`);
         return res.json();
       },
       get: async (id) => {
