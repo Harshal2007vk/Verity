@@ -48,8 +48,25 @@ app.use('/api/rankings', rankingRoutes);
 app.use('/api/ai', aiRoutes);
 
 // Base route
-app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok' });
+import { getSupabase } from './database/db';
+
+app.get('/api/health', async (req: Request, res: Response) => {
+  try {
+    const s = getSupabase();
+    await s.from('jobs').select('id', { count: 'exact', head: true });
+    res.json({ 
+      status: 'ok', 
+      database: 'connected',
+      cors_frontend_url: process.env.FRONTEND_URL || 'not-set',
+      node_env: process.env.NODE_ENV || 'development'
+    });
+  } catch (err: any) {
+    res.status(500).json({ 
+      status: 'error', 
+      database: 'disconnected', 
+      details: err.message || String(err) 
+    });
+  }
 });
 
 app.listen(PORT, async () => {

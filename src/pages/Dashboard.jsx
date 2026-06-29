@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { BriefcaseBusiness, Users, Zap, Plus, ChevronRight, Activity } from "lucide-react";
+import { BriefcaseBusiness, Users, Zap, Plus, ChevronRight, Activity, ActivitySquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { runFullRanking } from "@/lib/rankingEngine";
 import { seedDemoData } from "@/lib/seedData";
 import RankingProgress from "@/components/shared/RankingProgress";
 import DemoFlow from "@/components/ai/DemoFlow";
+import SystemDiagnostics from "@/components/SystemDiagnostics";
 
 export default function Dashboard() {
   const [jobs, setJobs] = useState([]);
@@ -18,6 +19,7 @@ export default function Dashboard() {
   const [rankingProgress, setRankingProgress] = useState(null);
   const [seeding, setSeeding] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
+  const [showDiagnostics, setShowDiagnostics] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -169,6 +171,14 @@ export default function Dashboard() {
                   </>
                 )}
               </Button>
+              <Button
+                onClick={() => setShowDiagnostics(true)}
+                variant="outline"
+                size="sm"
+                className="gap-2 text-muted-foreground"
+              >
+                <ActivitySquare className="w-3.5 h-3.5" /> System Diagnostics
+              </Button>
             </div>
             <span className="text-xs text-muted-foreground">
               Demo runs the full AI pipeline · or load data to explore manually
@@ -265,6 +275,7 @@ export default function Dashboard() {
       )}
 
       {showDemo && <DemoFlow onComplete={() => setShowDemo(false)} />}
+      {showDiagnostics && <SystemDiagnostics onClose={() => setShowDiagnostics(false)} />}
     </div>
   );
 }
