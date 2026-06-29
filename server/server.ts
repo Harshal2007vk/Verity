@@ -19,17 +19,21 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 const allowedOrigins = [
-  'https://verity-pearl.vercel.app',
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:3000',
 ];
+// Add production frontend URL from env var (set this to your Vercel URL)
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL.replace(/\/+$/, '')); // strip trailing slash
+}
 app.use(cors({
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     // Allow requests with no origin (e.g. server-to-server, curl, mobile)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn(`CORS: unexpected origin "${origin}" — allowing anyway`);
       callback(null, true); // Allow all for now but log unexpected origins
     }
   },

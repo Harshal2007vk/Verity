@@ -3,7 +3,10 @@
 
 export const API_BASE = import.meta.env.DEV
   ? '/api'
-  : (import.meta.env.VITE_API_BASE_URL || 'https://verity-vmbg.onrender.com/api');
+  : (import.meta.env.VITE_API_BASE_URL || (() => {
+      console.warn("VITE_API_BASE_URL is missing. API calls may fail.");
+      return ''; // Without VITE_API_BASE_URL, it will try relative paths which fail on Vercel
+    })());
 
 export const base44 = {
   entities: {
