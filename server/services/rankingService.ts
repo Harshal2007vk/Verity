@@ -20,7 +20,7 @@ export async function generateRanking(job: any, candidate: any, semanticScorePer
 You are an elite AI technical recruiter. Evaluate this candidate against the job description.
 Your goal is NOT keyword matching — evaluate evidence, real-world impact, and transferable skills.
 
-Return ONLY valid JSON matching this schema exactly:
+Return ONLY valid JSON matching this schema exactly. The response must be parseable as JSON.
 {
   "skill_depth_score": 0,
   "experience_quality_score": 0,
@@ -65,7 +65,6 @@ Evidence Links: ${JSON.stringify(candidate.evidence_links || []).substring(0, 10
     const response = await getGroq().chat.completions.create({
       model: 'openai/gpt-oss-20b',
       messages: [{ role: 'user', content: prompt.slice(0, 12000) }],
-      response_format: { type: 'json_object' },
       max_tokens: 400
     });
     const parsed = JSON.parse(response.choices[0]?.message?.content || '{}');

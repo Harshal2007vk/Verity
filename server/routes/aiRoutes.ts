@@ -24,11 +24,10 @@ router.post('/invoke-llm', async (req, res) => {
     const { prompt, response_json_schema } = req.body;
     if (!prompt) return res.status(400).json({ error: 'prompt is required' });
 
-    // Groq requires the word "json" in the prompt when using json_object response format
-    let finalPrompt = prompt.toLowerCase().includes('json') 
-      ? prompt 
-      : `${prompt}\n\nReturn the output in JSON format.`;
-      
+    let finalPrompt = prompt.toLowerCase().includes('json')
+      ? prompt
+      : `${prompt}\n\nReturn the output in valid JSON format.`;
+
     if (response_json_schema) {
       finalPrompt += `\n\nMust perfectly match this JSON schema:\n${JSON.stringify(response_json_schema, null, 2)}`;
     }
@@ -36,7 +35,6 @@ router.post('/invoke-llm', async (req, res) => {
     const response = await getGroq().chat.completions.create({
       model: 'openai/gpt-oss-20b',
       messages: [{ role: 'user', content: finalPrompt.slice(0, 12000) }],
-      response_format: { type: 'json_object' },
       max_tokens: 400
     });
 

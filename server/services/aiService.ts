@@ -16,7 +16,7 @@ function getGroq(): Groq {
 
 export async function extractResumeData(text: string) {
   const prompt = `You are an expert technical recruiter. Extract structured information from this resume.
-  Return ONLY a valid JSON object matching this structure:
+  Return ONLY a valid JSON object matching this structure. The response must be parseable as JSON.
   {
     "full_name": "string",
     "current_title": "string",
@@ -35,7 +35,6 @@ export async function extractResumeData(text: string) {
     const response = await getGroq().chat.completions.create({
       model: 'openai/gpt-oss-20b',
       messages: [{ role: 'user', content: prompt }],
-      response_format: { type: 'json_object' },
       max_tokens: 400
     });
     return JSON.parse(response.choices[0]?.message?.content || '{}');
@@ -48,6 +47,7 @@ export async function extractResumeData(text: string) {
 export async function chatWithContext(prompt: string, context: any) {
   const systemPrompt = `You are Verity, an elite enterprise AI recruiter copilot.
   Use the following JSON context about the application's current candidates and jobs to answer the recruiter's questions.
+  If you provide structured output, return valid JSON only.
   Keep your answers concise, analytical, and data-driven.
   Context: ${JSON.stringify(context).substring(0, 12000)}`;
 
