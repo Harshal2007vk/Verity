@@ -8,8 +8,8 @@ Verity is a modern, intelligent recruitment platform that uses AI to rank candid
 
 | Layer | URL |
 |-------|-----|
-| **Frontend** | [https://verity-pearl.vercel.app](https://verity-pearl.vercel.app) |
-| **Backend API** | [https://verity-vmbg.onrender.com](https://verity-vmbg.onrender.com) |
+| **Frontend** | [Verity — Resume is a claim. We rank on evidence.](https://verity-two-sigma.vercel.app/) |
+| **Backend API** | [https://verity-msi1.onrender.com](https://verity-msi1.onrender.com) |
 
 > **Note:** The Render free tier spins down after inactivity. The first request may take 30–60 seconds while the server cold-starts.
 
