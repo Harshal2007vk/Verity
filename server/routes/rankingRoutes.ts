@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { getSupabase } from '../database/db';
 import { generateRanking } from '../services/rankingService';
 
 const router = Router();
 
-router.post('/rank-candidates', async (req, res) => {
+router.post('/rank-candidates', async (req: Request, res: Response) => {
   try {
     const { jobId, candidates } = req.body;
     if (!jobId) return res.status(400).json({ error: 'jobId is required' });
@@ -17,7 +17,7 @@ router.post('/rank-candidates', async (req, res) => {
 
     if (!candidates || candidates.length === 0) return res.json([]);
 
-    const results = [];
+    const results: any[] = [];
     for (const c of candidates) {
       const semanticScorePercent = 50; // Default without pgvector
       const rankingData = await generateRanking(job, c, semanticScorePercent);
@@ -63,7 +63,21 @@ router.post('/rank-candidates', async (req, res) => {
   }
 });
 
-router.get('/:jobId', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    const { data, error } = await getSupabase()
+      .from('ranking_results')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw new Error(error.message);
+    res.json(data || []);
+  } catch (error: any) {
+    console.error('GET all rankings error:', error);
+    res.status(500).json({ error: 'Database error', details: error?.message });
+  }
+});
+
+router.get('/:jobId', async (req: Request, res: Response) => {
   try {
     const { data, error } = await getSupabase()
       .from('ranking_results')

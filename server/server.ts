@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 
 // Load routes (after dotenv so services can read API keys)
@@ -25,7 +25,7 @@ const allowedOrigins = [
   'http://localhost:3000',
 ];
 app.use(cors({
-  origin: (origin, callback) => {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     // Allow requests with no origin (e.g. server-to-server, curl, mobile)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -44,7 +44,7 @@ app.use('/api/rankings', rankingRoutes);
 app.use('/api/ai', aiRoutes);
 
 // Base route
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (req: Request, res: Response) => {
   res.json({ status: 'ok' });
 });
 

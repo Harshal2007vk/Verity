@@ -109,13 +109,32 @@ export const base44 = {
     Core: {
       // InvokeLLM routes to our custom AI backend endpoint
       InvokeLLM: async ({ prompt, response_json_schema, model }) => {
-        const res = await fetch(`${API_BASE}/ai/invoke-llm`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt, response_json_schema, model })
-        });
-        if (!res.ok) throw new Error('LLM invocation failed');
-        return res.json();
+        let lastError = null;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          try {
+            const res = await fetch(`${API_BASE}/ai/invoke-llm`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ prompt, response_json_schema, model })
+            });
+            
+            if (!res.ok) {
+              const errData = await res.json().catch(() => ({}));
+              const errorMsg = errData.details || errData.error || errData.raw || res.statusText;
+              throw new Error(`LLM invocation failed (${res.status}): ${errorMsg}`);
+            }
+            
+            return await res.json();
+          } catch (err) {
+            lastError = err;
+            console.error(`LLM Invocation attempt ${attempt} failed:`, err.message);
+            if (attempt < 3) {
+              // Wait 1s, then 2s
+              await new Promise(r => setTimeout(r, attempt * 1000));
+            }
+          }
+        }
+        throw lastError;
       }
     }
   },
