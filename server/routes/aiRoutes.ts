@@ -13,6 +13,11 @@ function getGroq(): Groq {
   return _groq;
 }
 
+function isRateLimitError(error: any) {
+  const message = `${error?.message || ''} ${error?.code || ''}`.toLowerCase();
+  return error?.status === 429 || error?.statusCode === 429 || message.includes('rate limit') || message.includes('rate_limit_exceeded') || message.includes('tokens per day');
+}
+
 // ─── /api/ai/invoke-llm ──────────────────────────────────────────────────────
 router.post('/invoke-llm', async (req, res) => {
   try {
@@ -30,8 +35,9 @@ router.post('/invoke-llm', async (req, res) => {
 
     const response = await getGroq().chat.completions.create({
       model: 'openai/gpt-oss-20b',
-      messages: [{ role: 'user', content: finalPrompt }],
-      response_format: { type: 'json_object' }
+      messages: [{ role: 'user', content: finalPrompt.slice(0, 12000) }],
+      response_format: { type: 'json_object' },
+      max_tokens: 400
     });
 
     const text = response.choices[0]?.message?.content || '{}';
@@ -46,6 +52,12 @@ router.post('/invoke-llm', async (req, res) => {
     res.json(parsed);
   } catch (error: any) {
     console.error('invoke-llm error:', error);
+    if (isRateLimitError(error)) {
+      return res.json({
+        fallback: true,
+        message: 'The AI service is temporarily rate-limited. Please try again in a few minutes.'
+      });
+    }
     res.status(500).json({ error: 'LLM invocation failed', details: error?.message });
   }
 });

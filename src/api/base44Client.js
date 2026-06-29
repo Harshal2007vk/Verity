@@ -124,6 +124,13 @@ export const base44 = {
             if (!res.ok) {
               const errData = await res.json().catch(() => ({}));
               const errorMsg = errData.details || errData.error || errData.raw || res.statusText;
+              const isRateLimited = res.status === 429 || /rate limit|rate_limit_exceeded|tokens per day/i.test(errorMsg);
+              if (isRateLimited) {
+                return {
+                  fallback: true,
+                  message: 'The AI service is temporarily rate-limited. Please try again in a few minutes.'
+                };
+              }
               throw new Error(`LLM invocation failed (${res.status}): ${errorMsg}`);
             }
             

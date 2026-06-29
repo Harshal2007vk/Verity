@@ -29,13 +29,14 @@ export async function extractResumeData(text: string) {
   }
   
   Resume Text:
-  ${text}`;
+  ${text.slice(0, 12000)}`;
 
   try {
     const response = await getGroq().chat.completions.create({
       model: 'openai/gpt-oss-20b',
       messages: [{ role: 'user', content: prompt }],
-      response_format: { type: 'json_object' }
+      response_format: { type: 'json_object' },
+      max_tokens: 400
     });
     return JSON.parse(response.choices[0]?.message?.content || '{}');
   } catch (error) {
@@ -48,15 +49,16 @@ export async function chatWithContext(prompt: string, context: any) {
   const systemPrompt = `You are Verity, an elite enterprise AI recruiter copilot.
   Use the following JSON context about the application's current candidates and jobs to answer the recruiter's questions.
   Keep your answers concise, analytical, and data-driven.
-  Context: ${JSON.stringify(context).substring(0, 20000)}`;
+  Context: ${JSON.stringify(context).substring(0, 12000)}`;
 
   try {
     const response = await getGroq().chat.completions.create({
       model: 'openai/gpt-oss-20b',
       messages: [
         { role: 'system', content: systemPrompt },
-        { role: 'user', content: prompt }
-      ]
+        { role: 'user', content: prompt.slice(0, 2000) }
+      ],
+      max_tokens: 400
     });
     return response.choices[0]?.message?.content || "No response";
   } catch (error) {

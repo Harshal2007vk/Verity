@@ -43,9 +43,9 @@ CANDIDATE:
 Name: ${candidate.full_name}
 Title: ${candidate.current_title}
 Skills Claimed: ${Array.isArray(candidate.skills_claimed) ? candidate.skills_claimed.join(', ') : (Array.isArray(candidate.skills) ? candidate.skills.join(', ') : '')}
-Work History: ${JSON.stringify(candidate.work_history || []).substring(0, 1500)}
-Resume: ${(candidate.resume_text || '').substring(0, 2000)}
-Evidence Links: ${JSON.stringify(candidate.evidence_links || [])}
+Work History: ${JSON.stringify(candidate.work_history || []).substring(0, 1000)}
+Resume: ${(candidate.resume_text || '').substring(0, 1200)}
+Evidence Links: ${JSON.stringify(candidate.evidence_links || []).substring(0, 1000)}
 `;
 
   let aiScores = {
@@ -64,8 +64,9 @@ Evidence Links: ${JSON.stringify(candidate.evidence_links || [])}
   try {
     const response = await getGroq().chat.completions.create({
       model: 'openai/gpt-oss-20b',
-      messages: [{ role: 'user', content: prompt }],
-      response_format: { type: 'json_object' }
+      messages: [{ role: 'user', content: prompt.slice(0, 12000) }],
+      response_format: { type: 'json_object' },
+      max_tokens: 400
     });
     const parsed = JSON.parse(response.choices[0]?.message?.content || '{}');
     aiScores = { ...aiScores, ...parsed };
