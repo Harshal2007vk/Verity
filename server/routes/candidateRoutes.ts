@@ -1,11 +1,16 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import multer from 'multer';
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const pdfParse = require('pdf-parse');
 import { getSupabase } from '../database/db';
 import { extractResumeData } from '../services/aiService';
 import { generateEmbedding, getCandidateEmbeddingText } from '../services/embeddingService';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const pdfParse = require('pdf-parse');
+
+// Extend Request to include file property from Multer
+interface MulterRequest extends Request {
+  file?: Express.Multer.File;
+}
 
 const router = Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -118,7 +123,7 @@ router.post('/', async (req, res) => {
 });
 
 // ─── POST /api/candidates/upload ─────────────────────────────────────────────
-router.post('/upload', upload.single('resume'), async (req, res) => {
+router.post('/upload', upload.single('resume'), async (req: MulterRequest, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
