@@ -4,6 +4,7 @@ import { getSupabase, initDb } from './server/database/db';
 // I'll just copy the JOBS and CANDIDATES directly here to avoid import issues.
 const JOBS = [
   {
+    id: "job_demo_ml_eng",
     title: "Senior ML Engineer",
     raw_description: "We're looking for a Senior ML Engineer to build and deploy production ML systems at scale. You'll work on model training pipelines, MLOps infrastructure, and real-time inference serving. Must have deep experience with PyTorch/TensorFlow, model optimization, and deploying models to production. Experience with LLMs, fine-tuning, and RAG systems is a big plus.",
     team_context: "ML Platform team — builds the infrastructure that powers all ML products at the company.",
@@ -21,6 +22,7 @@ const JOBS = [
     },
   },
   {
+    id: "job_demo_backend",
     title: "Backend Services Lead",
     raw_description: "Join our platform team as a Backend Services Lead. You'll design and build distributed systems, APIs, and services that handle millions of requests. Strong experience with Python or Go, distributed systems, databases (PostgreSQL, Redis), and API design required. Experience with microservices, message queues (Kafka), and observability is essential.",
     team_context: "Platform Engineering team — builds the core infrastructure.",
@@ -38,6 +40,7 @@ const JOBS = [
     },
   },
   {
+    id: "job_demo_product",
     title: "Product Designer",
     raw_description: "We're looking for a Product Designer to own end-to-end design for key product areas. You'll conduct user research, create wireframes and prototypes in Figma, and work closely with engineering. Strong portfolio required. Experience with design systems, complex UX workflows, and user testing is essential.",
     team_context: "Core Product team — owns the user experience.",
@@ -55,6 +58,7 @@ const JOBS = [
     },
   },
   {
+    id: "job_demo_data",
     title: "Data Analyst",
     raw_description: "Seeking a Data Analyst to partner with business teams. You will write complex SQL queries, build dashboards in Tableau/Looker, and analyze A/B tests to drive product decisions. Must have strong business acumen and the ability to communicate data insights to non-technical stakeholders.",
     team_context: "Growth & Analytics team.",
@@ -73,14 +77,15 @@ const JOBS = [
   },
 ];
 
-function bh(name, title, company, years, location, skills, evidence, workHistory, education, resumeSnippet, intelligence) {
-  const candidate = {
+function bh(id: string, name: string, title: string, company: string, years: number, location: string, skills: string[], evidence: any[], workHistory: any[], education: any[], resumeSnippet: string, intelligence: any) {
+  const candidate: any = {
+    id,
     full_name: name,
     current_title: title,
     current_company: company,
     total_experience_years: years,
     location: location,
-    skills_claimed: skills,
+    skills: skills,
     evidence_links: evidence,
     work_history: workHistory,
     education: education,
@@ -100,7 +105,7 @@ function bh(name, title, company, years, location, skills, evidence, workHistory
 const CANDIDATES = [
   // ML Candidates (5)
   bh(
-    "Sarah Chen", "Senior ML Engineer", "TechScale AI", 8, "San Francisco, CA",
+    "cand_demo_ml_1", "Sarah Chen", "Senior ML Engineer", "TechScale AI", 8, "San Francisco, CA",
     ["Python", "PyTorch", "TensorFlow", "MLOps", "LLM", "Kubernetes", "AWS"],
     [{ type: "github", url: "https://github.com/sarahchen/ml-pipelines", description: "Open source ML pipeline framework — 1.2k stars" }],
     [
@@ -112,7 +117,7 @@ const CANDIDATES = [
     null
   ),
   bh(
-    "John Keyword", "Machine Learning Specialist", "Self-Employed", 5, "Remote",
+    "cand_demo_ml_2", "John Keyword", "Machine Learning Specialist", "Self-Employed", 5, "Remote",
     ["Machine Learning", "AI", "LLM", "PyTorch", "TensorFlow", "Python", "MLOps", "Neural Networks"],
     [],
     [
@@ -123,7 +128,7 @@ const CANDIDATES = [
     null
   ),
   bh(
-    "Alex Kim", "Machine Learning Engineer", "StartUp Inc", 3, "New York, NY",
+    "cand_demo_ml_3", "Alex Kim", "Machine Learning Engineer", "StartUp Inc", 3, "New York, NY",
     ["Python", "Scikit-Learn", "Pandas", "Basic PyTorch"],
     [],
     [
@@ -134,7 +139,7 @@ const CANDIDATES = [
     null
   ),
   bh(
-    "Rachel Green", "Senior Software Engineer", "CloudNet", 9, "Austin, TX",
+    "cand_demo_ml_4", "Rachel Green", "Senior Software Engineer", "CloudNet", 9, "Austin, TX",
     ["Java", "Spring Boot", "PostgreSQL", "Python", "Machine Learning (Coursework)"],
     [],
     [
@@ -145,7 +150,7 @@ const CANDIDATES = [
     null
   ),
   bh(
-    "Mike Frontend", "React Developer", "WebStudio", 4, "Seattle, WA",
+    "cand_demo_ml_5", "Mike Frontend", "React Developer", "WebStudio", 4, "Seattle, WA",
     ["React", "JavaScript", "CSS", "HTML"],
     [],
     [
@@ -158,7 +163,7 @@ const CANDIDATES = [
 
   // Backend Candidates (5)
   bh(
-    "David Rossi", "Backend Services Lead", "FinTech Corp", 8, "Chicago, IL",
+    "cand_demo_backend_1", "David Rossi", "Backend Services Lead", "FinTech Corp", 8, "Chicago, IL",
     ["Go", "Python", "PostgreSQL", "Kafka", "Kubernetes", "System Design"],
     [{ type: "github", url: "https://github.com/davidr", description: "Active contributor to Apache Kafka" }],
     [
@@ -170,7 +175,7 @@ const CANDIDATES = [
     null
   ),
   bh(
-    "Emily Keyword", "Backend Engineer", "Tech Consulting", 6, "Remote",
+    "cand_demo_backend_2", "Emily Keyword", "Backend Engineer", "Tech Consulting", 6, "Remote",
     ["Python", "Go", "PostgreSQL", "Redis", "Kafka", "Microservices", "API", "Kubernetes", "AWS", "GCP"],
     [],
     [
@@ -181,7 +186,7 @@ const CANDIDATES = [
     null
   ),
   bh(
-    "Sam Junior", "Backend Developer", "Local Agency", 3, "Denver, CO",
+    "cand_demo_backend_3", "Sam Junior", "Backend Developer", "Local Agency", 3, "Denver, CO",
     ["Python", "Django", "MySQL"],
     [],
     [
@@ -192,7 +197,7 @@ const CANDIDATES = [
     null
   ),
   bh(
-    "Dr. Alan Turing", "Principal Architect", "MegaCorp", 20, "London, UK",
+    "cand_demo_backend_4", "Dr. Alan Turing", "Principal Architect", "MegaCorp", 20, "London, UK",
     ["C++", "Java", "Go", "Distributed Systems architecture", "Enterprise Architecture"],
     [],
     [
@@ -203,7 +208,7 @@ const CANDIDATES = [
     null
   ),
   bh(
-    "Lisa QA", "QA Automation Engineer", "TestCorp", 5, "Boston, MA",
+    "cand_demo_backend_5", "Lisa QA", "QA Automation Engineer", "TestCorp", 5, "Boston, MA",
     ["Selenium", "Cypress", "Python (Scripting)"],
     [],
     [
