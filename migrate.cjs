@@ -1,6 +1,11 @@
 const { createClient } = require('@supabase/supabase-js');
-const supabaseUrl = 'https://kbxspgutsgeybrsjrbfi.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtieHNwZ3V0c2dleWJyc2pyYmZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjU0MTQwOSwiZXhwIjoyMDk4MTE3NDA5fQ.maxOrZkEP90Ht_EB8XbxfAAAel7Jvm6xDK_DVyxdy8I';
+require('dotenv').config();
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Error: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in .env');
+  process.exit(1);
+}
 const supabase = createClient(supabaseUrl, supabaseKey, { auth: { persistSession: false }});
 async function migrate() {
   console.log('Running ALTER TABLE migrations...');

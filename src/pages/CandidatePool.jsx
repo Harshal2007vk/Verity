@@ -112,7 +112,8 @@ export default function CandidatePool() {
     toast({ title: "Analyzing resume..." });
     
     try {
-      const res = await fetch('/api/candidates/upload', {
+      const { API_BASE } = await import('@/api/base44Client');
+      const res = await fetch(`${API_BASE}/candidates/upload`, {
         method: 'POST',
         body: formData
       });

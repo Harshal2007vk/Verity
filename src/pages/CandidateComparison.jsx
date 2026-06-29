@@ -60,9 +60,10 @@ export default function CandidateComparison() {
     setLoading(true);
     setResults(null);
     try {
+      const { API_BASE } = await import('@/api/base44Client');
       const candA = candidates.find(c => c.id === pickedA);
       const candB = candidates.find(c => c.id === pickedB);
-      const res = await fetch("/api/rankings/rank-candidates", {
+      const res = await fetch(`${API_BASE}/rankings/rank-candidates`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ jobId: selectedJob, candidates: [candA, candB] })
