@@ -1,0 +1,9 @@
+{
+  "name": "Verity",
+  "short_name": "Verity",
+  "description": "AI Talent Intelligence Platform. Evidence-based candidate ranking that goes beyond keyword matching.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020"
+}
